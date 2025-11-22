@@ -88,3 +88,5 @@ Private subnet: có route 0.0.0.0/0 → nat-...
 EC2 public: có Public IP, SSH được
 
 EC2 private: không có Public IP, chỉ SSH được từ public
+
+test
