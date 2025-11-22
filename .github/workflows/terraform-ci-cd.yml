@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch: # Cho phép chạy thủ công
+  workflow_dispatch: # chạy thủ công
 
 jobs:
   terraform:
@@ -22,13 +22,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Cài đặt Terraform
-      - name: Setup Terraform
+      
+      - name:  Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.0 # Phiên bản khuyến nghị
 
-      # Cấu hình AWS Credentials
+     
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -50,15 +50,10 @@ jobs:
         id: init
         run: terraform init
 
-      # Lên kế hoạch triển khai (Plan) - CÁCH SỬA ĐỂ CAPTURE OUTPUT
+      # Lên kế hoạch triển khai (Plan)
       - name: Terraform Plan
         id: plan
-        # Chạy plan, chuyển hướng output vào file và sau đó lưu vào biến môi trường chung
-        run: |
-          terraform plan -input=false -out=tfplan -no-color > plan_output.txt
-          echo "PLAN_OUTPUT<<EOF" >> $GITHUB_ENV
-          cat plan_output.txt >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+        run: terraform plan -input=false -out=tfplan -no-color
 
       # Bình luận (optional)
       - name: Comment Plan on PR
@@ -66,20 +61,16 @@ jobs:
         if: github.event_name == 'pull_request'
         with:
           script: |
-            // Trích xuất kết quả Plan từ biến môi trường chung PLAN_OUTPUT
+            // Trích xuất kết quả Plan
             const planOutput = process.env.PLAN_OUTPUT;
-            
-            // Xóa các ký tự ANSI color code (nếu có) để output sạch hơn
-            const cleanPlanOutput = planOutput.replace(/\u001b\[\d+m/g, ''); 
-
             // Gửi bình luận lên PR
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `### Terraform Plan Result\n\n\`\`\`\n${cleanPlanOutput}\n\`\`\`\n:warning: **Review Changes Carefully before Merging!**`
+              body: `### Terraform Plan Result\n\n\`\`\`\n${planOutput}\n\`\`\`\n:warning: **Review Changes Carefully before Merging!**`
             })
-  
+          
 
       # appply triển khai (Chỉ chạy khi merge/push lên branch 'main')
       - name: Terraform Apply
