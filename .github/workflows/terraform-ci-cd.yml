@@ -39,11 +39,9 @@ jobs:
       
       - name: Run Checkov Scan
         id: checkov
-        uses: bridgecrewio/checkov-action@v1
+        uses: bridgecrewio/checkov-action@v2
         with:
-          directory: . # Quét thư mục hiện tại (nếu các file .tf nằm ở root)
-          output_format: cli
-          fail_on: true 
+          args: --directory . -f cli
           
       # Khởi tạo Terraform
       - name: Terraform Init
