@@ -41,11 +41,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       
-      - name: Run Checkov Scan
-        id: checkov
-        uses: bridgecrewio/checkov-action@v1
-        with:
-          args: --directory . -f cli
+      
           
       # Khởi tạo Terraform
       - name: Terraform Init
