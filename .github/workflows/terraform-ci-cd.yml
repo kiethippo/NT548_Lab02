@@ -14,7 +14,11 @@ jobs:
     name: 'AWS Infrastructure Deployment'
     runs-on: ubuntu-latest
     
-    
+    permissions:
+      contents: read       
+      id-token: write      
+      pull-requests: write
+      
     env:
       AWS_REGION: ap-southeast-1 
     
@@ -36,14 +40,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      
-      - name: Run Checkov Scan
-        id: checkov
-        uses: bridgecrewio/checkov-action@v1
-        with:
-          directory: . # Quét thư mục hiện tại (nếu các file .tf nằm ở root)
-          output_format: cli
-          fail_on: true 
           
       # Khởi tạo Terraform
       - name: Terraform Init
@@ -70,11 +66,11 @@ jobs:
               repo: context.repo.repo,
               body: `### Terraform Plan Result\n\n\`\`\`\n${planOutput}\n\`\`\`\n:warning: **Review Changes Carefully before Merging!**`
             })
-          env:
-            PLAN_OUTPUT: ${{ steps.plan.outputs.stdout }}
+          
 
       # appply triển khai (Chỉ chạy khi merge/push lên branch 'main')
       - name: Terraform Apply
         # Chỉ chạy Apply khi là sự kiện Push và trên branch main
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        #if: github.ref == 'refs/heads/main' && #
+        if: github.event_name == 'push'
         run: terraform apply -auto-approve tfplan

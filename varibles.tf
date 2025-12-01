@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "project_name" {
   description = "Tag prefix"
   type        = string
-  default     = "nt548-tf-lab01"
+  default     = "nt548-tf-lab02"
 }
 
 variable "my_ip_cidr" {
@@ -19,5 +19,5 @@ variable "my_ip_cidr" {
 variable "key_name" {
   description = "Existing AWS key pair name"
   type        = string
-  default     = "keypair_lab1"
+  default     = "keypair_lab2"
 }
