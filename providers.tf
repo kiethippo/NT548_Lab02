@@ -2,6 +2,7 @@ terraform {
   backend "s3" {
     bucket = "nt548-kiethuynh-terraform-state"
     region         = "ap-southeast-1"
+    key = "./terraform.tfstate"
     #dynamodb_table = "dynamodb-lock-table"
     encrypt        = true
     
