@@ -71,5 +71,6 @@ jobs:
       # appply triển khai (Chỉ chạy khi merge/push lên branch 'main')
       - name: Terraform Apply
         # Chỉ chạy Apply khi là sự kiện Push và trên branch main
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        #if: github.ref == 'refs/heads/main' && #
+        if: github.event_name == 'push'
         run: terraform apply -auto-approve tfplan
