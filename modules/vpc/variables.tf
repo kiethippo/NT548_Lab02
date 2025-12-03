@@ -4,3 +4,4 @@ variable "cidr_block" {
 variable "project_tag" {
   type = string
 }
+
