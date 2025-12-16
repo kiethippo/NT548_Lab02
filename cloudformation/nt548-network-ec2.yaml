@@ -172,11 +172,13 @@ Resources:
           ToPort: 22
           CidrIp:
             Ref: AllowedSSH
+      Monitoring: true 
       SecurityGroupEgress:
         - IpProtocol: -1
           FromPort: 0
           ToPort: 0
           CidrIp: 0.0.0.0/0
+          Description: Allow HTTP traffic
       Tags:
         - Key: Name
           Value: nt548-public-ec2-sg
@@ -193,11 +195,13 @@ Resources:
           ToPort: 22
           SourceSecurityGroupId:
             Ref: PublicEC2SG
+      Monitoring: true 
       SecurityGroupEgress:
         - IpProtocol: -1
           FromPort: 0
           ToPort: 0
           CidrIp: 0.0.0.0/0
+          Description: Allow HTTP traffic
       Tags:
         - Key: Name
           Value: nt548-private-ec2-sg

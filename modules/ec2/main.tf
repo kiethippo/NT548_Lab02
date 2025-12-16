@@ -6,7 +6,9 @@ resource "aws_instance" "public" {
   vpc_security_group_ids      = [var.public_sg_id]
   key_name                    = var.key_name
   associate_public_ip_address = true
-
+  monitoring = true
+  ebs_optimized = true
+  
   tags = {
     Name = "${var.project_tag}-public-ec2"
   }
@@ -21,6 +23,7 @@ resource "aws_instance" "private" {
 
   tags = {
     Name = "${var.project_tag}-private-ec2"
+    
   }
 }
 
