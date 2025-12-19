@@ -11,7 +11,15 @@ resource "aws_security_group" "public_ec2" {
     protocol    = "tcp"
     cidr_blocks = [var.my_ip_cidr]
   }
-
+ingress {    //fixx
+    cidr_blocks = [
+    "0.0.0.0/0"
++     "10.0.0.1/32"
+    ]
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+  }
   egress {
     from_port   = 0
     to_port     = 0

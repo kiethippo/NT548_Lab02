@@ -2,6 +2,13 @@
 resource "aws_instance" "public" {
   ami                         = var.ami_id
   instance_type               = "t3.micro"
+  metadata_options {
+      http_endpoint = "enabled"
+      http_tokens   = "required"
+  }
+   root_block_device {
+ encrypted     = true
+ }
   subnet_id                   = var.public_subnet_id
   vpc_security_group_ids      = [var.public_sg_id]
   key_name                    = var.key_name
@@ -17,8 +24,17 @@ resource "aws_instance" "public" {
 resource "aws_instance" "private" {
   ami                    = var.ami_id
   instance_type          = "t3.micro"
+  metadata_options {
+      http_endpoint = "enabled"
+      http_tokens   = "required"
+  }
+   root_block_device {
+ encrypted     = true
+ }
   subnet_id              = var.private_subnet_id
   vpc_security_group_ids = [var.private_sg_id]
+  monitoring = true
+  ebs_optimized = true
   key_name               = var.key_name
 
   tags = {
