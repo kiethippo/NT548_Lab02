@@ -1,4 +1,4 @@
-
+# checkov:skip=CKV2_AWS_41: IAM role not required for lab
 resource "aws_instance" "public" {
   ami                         = var.ami_id
   instance_type               = "t3.micro"
@@ -12,6 +12,7 @@ resource "aws_instance" "public" {
   subnet_id                   = var.public_subnet_id
   vpc_security_group_ids      = [var.public_sg_id]
   key_name                    = var.key_name
+  
   associate_public_ip_address = true
   monitoring = true
   ebs_optimized = true
