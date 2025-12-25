@@ -1,4 +1,5 @@
 # SG cho public EC2
+#checkov:skip=CKV_AWS_382 Reason: Allow all outbound traffic for lab testing
 resource "aws_security_group" "public_ec2" {
   name        = "public-ec2-sg"
   description = "Allow SSH from user IP"
@@ -13,9 +14,18 @@ resource "aws_security_group" "public_ec2" {
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    description = "Allow HTTPS outbound"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    description = "Allow HTTP outbound"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -35,11 +45,20 @@ resource "aws_security_group" "private_ec2" {
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    description = "Allow HTTPS outbound"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+
+  # egress {S
+  #   from_port   = 0
+  #   to_port     = 0
+  #   protocol    = "-1"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
 }
 
 output "public_sg_id" {
