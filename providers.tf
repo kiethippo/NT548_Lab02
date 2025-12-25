@@ -1,12 +1,12 @@
 terraform {
-  backend "s3" {
-    bucket = "nt548-kiethuynh-terraform-state"
-    region         = "ap-southeast-1"
-    key = "./terraform.tfstate"
-    #dynamodb_table = "dynamodb-lock-table"
-    encrypt        = true
+  # backend "s3" {
+  #   bucket = "nt548-kiethuynh-terraform-state"
+  #   region         = "ap-southeast-1"
+  #   key = "./terraform.tfstate"
+  #   #dynamodb_table = "dynamodb-lock-table"
+  #   encrypt        = true
     
-  }
+  # }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
