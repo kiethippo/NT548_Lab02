@@ -69,9 +69,9 @@ jobs:
               body: `### Terraform Plan Result\n\n\`\`\`\n${planOutput}\n\`\`\`\n:warning: **Review Changes Carefully before Merging!**`
             })
 
-            - name: Terraform Apply
-              if: |
-                (github.ref == 'refs/heads/main' && github.event_name == 'push') ||
-                github.event_name == 'workflow_dispatch'
-              run: terraform apply -auto-approve tfplan
+      - name: Terraform Apply
+        if: |
+          (github.ref == 'refs/heads/main' && github.event_name == 'push') ||
+          github.event_name == 'workflow_dispatch'
+        run: terraform apply -auto-approve tfplan
 
